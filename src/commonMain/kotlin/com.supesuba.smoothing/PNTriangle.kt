@@ -57,7 +57,7 @@ class PNTriangle(
         }
     }
 
-    fun tesselate(level: Int): List<Triangle> {
+    fun tessellate(level: Int): List<Triangle> {
         val vertices = mutableListOf<Vertex>()
         for (i in 0..level) {
             val k = level - i

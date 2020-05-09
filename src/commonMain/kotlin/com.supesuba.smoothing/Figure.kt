@@ -12,8 +12,8 @@ class Figure {
         }
     }
 
-    fun tessellatePN() {
-        triangles = triangles.map { it.toPNTriangle().tesselate(1) }.flatten().toMutableList()
+    fun tessellatePN(tessellationLevel: Int) {
+        triangles = triangles.map { it.toPNTriangle().tessellate(tessellationLevel) }.flatten().toMutableList()
         val a = 0
     }
 
