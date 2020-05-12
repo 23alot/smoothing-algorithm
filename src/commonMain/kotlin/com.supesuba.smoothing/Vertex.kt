@@ -1,7 +1,5 @@
 package com.supesuba.smoothing
 
-import com.supesuba.smoothing.collections.list
-
 typealias Normal = Vector
 
 data class Vertex(
@@ -69,3 +67,16 @@ operator fun Float.times(value: Vertex): Vertex =
         y = this * value.y,
         z = this * value.z
     )
+
+fun FloatArray.toVertexList(): List<Vertex> {
+    val vertices = mutableListOf<Vertex>()
+    for (i in 0 until this.count() - 2 step 3) {
+        vertices += Vertex(
+            x = this[i],
+            y = this[i + 1],
+            z = this[i + 2]
+        )
+    }
+
+    return vertices
+}
