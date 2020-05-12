@@ -4,7 +4,7 @@ import com.supesuba.smoothing.collections.list
 import kotlin.math.pow
 
 class PNTriangle(
-    private val triangle: Triangle
+    val triangle: Triangle
 ) {
     init {
         calculateSupportPoints()
