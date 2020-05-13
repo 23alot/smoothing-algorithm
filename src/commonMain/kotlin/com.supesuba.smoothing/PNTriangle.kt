@@ -1,6 +1,6 @@
 package com.supesuba.smoothing
 
-import com.supesuba.smoothing.collections.list
+import collections.list
 import kotlin.math.pow
 
 class PNTriangle(
