@@ -14,4 +14,6 @@ interface SmoothingInteractor {
     suspend fun observeModelChanges(): Flow<RenderObject>
 
     suspend fun calculateVertexNormals(vertices: List<Vertex>)
+
+    suspend fun calculateSupportPoints()
 }

@@ -6,13 +6,10 @@ import kotlin.math.pow
 class PNTriangle(
     val triangle: Triangle
 ) {
-    init {
-        calculateSupportPoints()
-    }
 
     private lateinit var supportPoints: SupportPoints
 
-    private fun calculateSupportPoints() {
+    suspend fun calculateSupportPoints() {
         if (::supportPoints.isInitialized) return
         val p = listOf(triangle.v1, triangle.v2, triangle.v3)
         val n = listOf(triangle.v1.normal, triangle.v2.normal, triangle.v3.normal)
