@@ -1,25 +1,15 @@
-plugins {
-    id 'kotlin-multiplatform'
-}
-repositories {
-    mavenCentral()
-    jcenter()
+//apply plugin: 'java-library'
+apply plugin: 'kotlin'
+apply from: "$rootDir/gradle/scripts/dependencies.gradle"
+
+sourceSets {
+    main.java.srcDirs += 'src/main/kotlin'
 }
 
-kotlin {
-    jvm("android")
-    
-    sourceSets {
-        commonMain {
-            dependencies {
-                implementation("org.jetbrains.kotlin:kotlin-stdlib-common:1.3.72")
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-common:1.3.6")
-            }
-        }
-        
-    }
+dependencies {
+    implementation library.kotlin
+    implementation library.coroutinesCore
 }
 
-configurations {
-    compileClasspath
-}
+sourceCompatibility = "8"
+targetCompatibility = "8"
