@@ -10,14 +10,13 @@ import kotlinx.coroutines.flow.onStart
 class PNTriangleSmoothingInteractor(
 
 ): SmoothingInteractor {
-    private val triangles = mutableListOf<PNTriangle>()
+    private var triangles = listOf<PNTriangle>()
 
     @ExperimentalCoroutinesApi
     private val state = MutableStateFlow<RenderObject>(RenderObject())
 
-
-    override suspend fun addTriangle(triangle: Triangle) {
-        triangles += PNTriangle(triangle = triangle)
+    override suspend fun setTriangles(triangles: List<Triangle>) {
+        this.triangles = triangles.map(::PNTriangle)
     }
 
     override suspend fun calculateVertexNormals(vertices: List<Vertex>) {
@@ -32,13 +31,16 @@ class PNTriangleSmoothingInteractor(
 
     @ExperimentalCoroutinesApi
     override suspend fun tessellate(tessellationLevel: Int) {
+        val start = System.currentTimeMillis()
         val newTriangles = triangles.map { it.tessellate(tessellationLevel) }.flatten()
         val vertices = newTriangles.map { it.toList() }.flatten()
+        val end = System.currentTimeMillis()
 
         state.value = RenderObject(
             verticesArray = vertices.map { it.toList() }.flatten().toFloatArray(),
             normalsArray = vertices.map { it.getNormalList() }.flatten().toFloatArray(),
-            colorsArray = getColorsArray(vertices)
+            colorsArray = getColorsArray(vertices),
+            computationTime = end - start
         )
     }
 

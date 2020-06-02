@@ -12,14 +12,13 @@ import kotlinx.coroutines.flow.onStart
 class PhongSmoothingInteractor(
 
 ) : SmoothingInteractor {
-    private val triangles = mutableListOf<PhongTriangle>()
+    private var triangles = listOf<PhongTriangle>()
 
     @ExperimentalCoroutinesApi
     private val state = MutableStateFlow<RenderObject>(RenderObject())
 
-
-    override suspend fun addTriangle(triangle: Triangle) {
-        triangles += PhongTriangle(triangle)
+    override suspend fun setTriangles(triangles: List<Triangle>) {
+        this.triangles = triangles.map(::PhongTriangle)
     }
 
     override suspend fun calculateVertexNormals(vertices: List<Vertex>) {
@@ -31,13 +30,16 @@ class PhongSmoothingInteractor(
 
     @ExperimentalCoroutinesApi
     override suspend fun tessellate(tessellationLevel: Int) {
+        val start = System.currentTimeMillis()
         val newTriangles = triangles.map { it.tessellate(tessellationLevel, ALPHA) }.flatten()
         val vertices = newTriangles.map { it.toList() }.flatten()
+        val end = System.currentTimeMillis()
 
         state.value = RenderObject(
             verticesArray = vertices.map { it.toList() }.flatten().toFloatArray(),
             normalsArray = vertices.map { it.getNormalList() }.flatten().toFloatArray(),
-            colorsArray = getColorsArray(vertices)
+            colorsArray = getColorsArray(vertices),
+            computationTime = end - start
         )
     }
 

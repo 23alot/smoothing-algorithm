@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface SmoothingInteractor {
 
-    suspend fun addTriangle(triangle: Triangle)
+    suspend fun setTriangles(triangles: List<Triangle>)
 
     suspend fun tessellate(tessellationLevel: Int)
 
